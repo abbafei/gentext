@@ -52,4 +52,10 @@ if __name__ == '__main__':
     import sys
 
 
-    sys.stdout.write(''.join((comb_n_gen(gen=lambda: generate(ll_merge2dict(wrap(choo(int(sys.argv[1]), sys.stdin.read().split())), lambda o, n: tuple(set(o + (n,))), lambda a: (a,))), combine_fn=' '.join, n=int(sys.argv[2])), "\n")))
+    if (len(sys.argv) > 1) and (sys.argv[1] == '--help'):
+        'Takes text on stdin, level as param 1, amount of items to generate as param 2, "char" to work on chars as units instead of words as optional param 3 '
+    else:
+        ft = sys.stdin.read()
+        chars = ((len(sys.argv) > 3) and sys.argv[3] == 'char')
+        items = (ft if chars else ft.split())
+        sys.stdout.write(''.join((comb_n_gen(gen=lambda: generate(ll_merge2dict(wrap(choo(int(sys.argv[1]), items)), lambda o, n: tuple(set(o + (n,))), lambda a: (a,))), combine_fn=('' if chars else ' ').join, n=int(sys.argv[2])), "\n")))
